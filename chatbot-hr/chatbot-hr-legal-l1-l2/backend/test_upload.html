@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>File Upload Test</title>
+</head>
+<body>
+    <h2>Test File Upload to Azure Blob Storage</h2>
+    
+    <form id="uploadForm">
+        <input type="file" id="fileInput" required>
+        <button type="submit">Upload</button>
+    </form>
+
+    <div id="result" style="margin-top: 20px;"></div>
+
+    <hr>
+    <h3>Uploaded Files</h3>
+    <div id="fileList"></div>
+
+    <script>
+        const API_BASE = 'http://localhost:8000/api';
+
+        // Handle file upload
+        document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const file = document.getElementById('fileInput').files[0];
+            if (!file) return;
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            try {
+                const response = await fetch(`${API_BASE}/files/upload`, {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await response.json();
+                document.getElementById('result').innerHTML = `
+                    <p>Upload successful!</p>
+                    <p>URL: <a href="${result.url}" target="_blank">${result.url}</a></p>
+                `;
+                // Refresh file list
+                loadFiles();
+            } catch (err) {
+                document.getElementById('result').innerHTML = `Error: ${err.message}`;
+            }
+        });
+
+        // Load and display file list
+        async function loadFiles() {
+            try {
+                const response = await fetch(`${API_BASE}/files/list`);
+                const files = await response.json();
+                
+                const html = files.map(file => `
+                    <div style="margin: 10px 0;">
+                        <a href="${file.url}" target="_blank">${file.name}</a>
+                        (${Math.round(file.size / 1024)} KB)
+                    </div>
+                `).join('');
+                
+                document.getElementById('fileList').innerHTML = html;
+            } catch (err) {
+                document.getElementById('fileList').innerHTML = `Error loading files: ${err.message}`;
+            }
+        }
+
+        // Load files on page load
+        loadFiles();
+    </script>
+</body>
+</html>

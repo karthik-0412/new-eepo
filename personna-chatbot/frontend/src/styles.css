@@ -1,0 +1,9 @@
+body { font-family: system-ui, sans-serif; background: #f5f7fb; margin: 0; padding: 20px; }
+.app { max-width: 720px; margin: 0 auto; }
+.chat { background: white; padding: 16px; border-radius: 8px; min-height: 300px; max-height: 60vh; overflow: auto; }
+.msg { padding: 8px 12px; margin: 6px 0; border-radius: 6px; }
+.msg.user { background: #e6f2ff; align-self: flex-end; }
+.msg.assistant { background: #f1f1f1; }
+.composer { margin-top: 12px; display: flex; gap: 8px; }
+.composer input { flex: 1; padding: 8px 10px; border-radius: 6px; border: 1px solid #ddd; }
+.composer button { padding: 8px 12px; border-radius: 6px; border: none; background: #2563eb; color: white; }

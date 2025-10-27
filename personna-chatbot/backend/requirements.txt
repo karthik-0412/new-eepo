@@ -1,0 +1,8 @@
+fastapi==0.95.2
+uvicorn[standard]==0.22.0
+python-dotenv==1.0.0
+langchain==0.0.294
+transformers==4.37.0
+torch>=1.13.0; platform_system != "Windows" or python_version >= "3.8"
+sentencepiece
+huggingface-hub
